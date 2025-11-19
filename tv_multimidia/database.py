@@ -432,8 +432,12 @@ class DatabaseService:
 class TMDBDataSource:
     def __init__(self):
         self.base_url = 'https://api.themoviedb.org/3'
-        # RECOMENDAÇÃO: Mova esta chave para uma variável de ambiente (os.environ.get('TMDB_API_KEY'))
-        self.api_key = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMTk3M2Q4YzE4YmUxODYyNjI5OWE2ZGNlNmQyYzdjMCIsIm5iZiI6MTc1MDczNTQ0Ni44NjQsInN1YiI6IjY4NWExYTU2MmY1OTMwN2NkMjU3MmVhZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WqJC6aM33pww1-c_7N3aplZbE7jVGbP8UEqf_enOS1Y'
+        # Carrega a chave da API de forma segura
+        self.api_key = os.environ.get('TMDB_API_KEY')
+        if not self.api_key:
+            # Fallback para desenvolvimento (NUNCA usar em produção!)
+            print("AVISO: TMDB_API_KEY não definida. Usando chave de desenvolvimento.")
+            self.api_key = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMTk3M2Q4YzE4YmUxODYyNjI5OWE2ZGNlNmQyYzdjMCIsIm5iZiI6MTc1MDczNTQ0Ni44NjQsInN1YiI6IjY4NWExYTU2MmY1OTMwN2NkMjU3MmVhZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WqJC6aM33pww1-c_7N3aplZbE7jVGbP8UEqf_enOS1Y'
         self.headers = {
             'Authorization': f'Bearer {self.api_key}',
             'accept': 'application/json',

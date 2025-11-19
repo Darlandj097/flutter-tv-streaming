@@ -5,7 +5,11 @@ import jwt
 from datetime import datetime, timedelta
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from dotenv import load_dotenv
 from tv_multimidia.database import DatabaseService, TMDBDataSource, SyncService
+
+# Carrega variáveis de ambiente do arquivo .env
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)  # Permite requisições do Flutter

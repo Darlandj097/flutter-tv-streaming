@@ -61,12 +61,24 @@ lib/
    cd tv_multimidia
    ```
 
-2. **Instale as dependências:**
+2. **Configure as variáveis de ambiente:**
+   ```bash
+   # Copie o arquivo de exemplo
+   cp .env.example .env
+
+   # Edite o arquivo .env com suas configurações
+   nano .env
+   ```
+
+   **Variáveis obrigatórias:**
+   - `TMDB_API_KEY`: Chave da API TMDB (obtenha em https://www.themoviedb.org/settings/api)
+
+3. **Instale as dependências:**
    ```bash
    flutter pub get
    ```
 
-3. **Execute o aplicativo:**
+4. **Execute o aplicativo:**
 
    - **Para Windows:**
      ```bash
@@ -118,7 +130,19 @@ O aplicativo integra com a API TMDB para obter dados de filmes e séries. A inte
 - Detalhes completos de séries (temporadas e episódios)
 - Imagens (posters, backdrops)
 
-**Nota**: A chave da API TMDB está configurada no código. Para uso em produção, considere mover para variáveis de ambiente.
+### Configuração da API
+
+1. **Obtenha uma chave da API TMDB:**
+   - Acesse: https://www.themoviedb.org/settings/api
+   - Crie uma conta gratuita
+   - Gere uma chave de API (v4 auth - Bearer token)
+
+2. **Configure a chave no arquivo `.env`:**
+   ```bash
+   TMDB_API_KEY=sua_chave_bearer_token_aqui
+   ```
+
+**Segurança**: A chave da API é carregada via variáveis de ambiente e nunca é commitada no código fonte.
 
 ## 🎮 Navegação e Controles
 

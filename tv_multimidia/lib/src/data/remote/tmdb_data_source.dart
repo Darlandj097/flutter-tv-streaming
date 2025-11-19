@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'package:http/http.dart' as http;
 import '../models/movie.dart';
 import '../models/tv_series.dart';
@@ -17,8 +18,18 @@ class Genre {
 
 class TmdbDataSource {
   static const String _baseUrl = 'https://api.themoviedb.org/3';
-  static const String _apiKey =
-      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMTk3M2Q4YzE4YmUxODYyNjI5OWE2ZGNlNmQyYzdjMCIsIm5iZiI6MTc1MDczNTQ0Ni44NjQsInN1YiI6IjY4NWExYTU2MmY1OTMwN2NkMjU3MmVhZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WqJC6aM33pww1-c_7N3aplZbE7jVGbP8UEqf_enOS1Y'; // Chave da API TMDB
+
+  // Carrega a chave da API de forma segura
+  static String get _apiKey {
+    // Tenta carregar da variável de ambiente
+    final envKey = Platform.environment['TMDB_API_KEY'];
+    if (envKey != null && envKey.isNotEmpty) {
+      return envKey;
+    }
+
+    // Fallback para desenvolvimento (NUNCA usar em produção!)
+    return 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMTk3M2Q4YzE4YmUxODYyNjI5OWE2ZGNlNmQyYzdjMCIsIm5iZiI6MTc1MDczNTQ0Ni44NjQsInN1YiI6IjY4NWExYTU2MmY1OTMwN2NkMjU3MmVhZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WqJC6aM33pww1-c_7N3aplZbE7jVGbP8UEqf_enOS1Y';
+  }
 
   Future<List<Movie>> fetchPopularMovies() async {
     final url = Uri.parse('$_baseUrl/movie/popular?language=pt-BR');
