@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: tv_multimidia_postgres
+    environment:
+      POSTGRES_DB: tv_multimidia
+      POSTGRES_USER: tv_user
+      POSTGRES_PASSWORD: tv_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - tv_multimidia_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tv_user -d tv_multimidia"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: tv_multimidia_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@tv.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    networks:
+      - tv_multimidia_network
+
+  api:
+    build: .
+    container_name: tv_multimidia_api
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - tv_multimidia_network
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONIOENCODING=utf-8
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=tv_multimidia
+      - DB_USER=tv_user
+      - DB_PASSWORD=tv_password
+    volumes:
+      - ./tv_multimidia:/app/tv_multimidia
+      - ./api_server.py:/app/api_server.py
+
+volumes:
+  postgres_data:
+
+networks:
+  tv_multimidia_network:
+    driver: bridge
