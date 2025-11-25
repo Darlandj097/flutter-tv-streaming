@@ -6,6 +6,7 @@
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
 
 > **Projeto desenvolvido para demonstrar habilidades avançadas em engenharia de software móvel e desktop, focando em Clean Architecture e interfaces para TV.**
+> Assista ao Vídeo
 
 [![Assista ao Vídeo](https://img.youtube.com/vi/FSd5IIVLUsI/0.jpg)](https://youtu.be/FSd5IIVLUsI)
 
